@@ -9,8 +9,13 @@ public class Library {
         ShowAllBooks(books);
     }
 
-    static void BorrowBook() {
-
+    static void BorrowBook(Book book) {
+        // If book still has library copies, borrow the book
+        if (book.libraryCopies > 0) {
+            book.libraryCopies -= 1;
+        } else {
+            System.out.println("There are no more copies left of " + book.title);
+        }
     }
 
     static void ShowAllBooks(ArrayList<Book> books) {
