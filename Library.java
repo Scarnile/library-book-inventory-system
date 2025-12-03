@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Main {
+public class Library {
     public static void main(String[] args) {
         ArrayList<Book> books = new ArrayList<>();
 
