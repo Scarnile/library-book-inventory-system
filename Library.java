@@ -3,9 +3,12 @@ import java.util.ArrayList;
 public class Library {
     public static void main(String[] args) {
         ArrayList<Book> books = new ArrayList<>();
+        LibraryUser libraryUser = new LibraryUser();
 
         books.add(new Book("Lord of the Rings", "John Tolkien", 1925, 2));
         books.add(new Book("Harry Potter", "J.K Rowling", 1980, 1));
+
+        System.out.println("Would you like to borrow any of the books below?");
         ShowAllBooks(books);
     }
 
@@ -20,8 +23,10 @@ public class Library {
 
     static void ShowAllBooks(ArrayList<Book> books) {
         for (Book book : books) {
-            System.out.println(book.title);
+            int bookIndex = books.indexOf(book);
+            System.out.println(bookIndex + ": " + book.title);
         }
+
     }
 }
 
@@ -37,4 +42,9 @@ class Book {
         this.year = year;
         this.libraryCopies = libraryCopies;
     }
+}
+
+class LibraryUser {
+    String name;
+    ArrayList<Book> books = new ArrayList<>();
 }
