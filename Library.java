@@ -5,9 +5,19 @@ public class Library {
         ArrayList<Book> books = new ArrayList<>();
 
         books.add(new Book("Lord of the Rings", "John Tolkien", 1925, 2));
-        System.out.println(books.get(0).title);
+        books.add(new Book("Harry Potter", "J.K Rowling", 1980, 1));
+        ShowAllBooks(books);
     }
 
+    static void BorrowBook() {
+
+    }
+
+    static void ShowAllBooks(ArrayList<Book> books) {
+        for (Book book : books) {
+            System.out.println(book.title);
+        }
+    }
 }
 
 class Book {
