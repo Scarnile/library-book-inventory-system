@@ -1,7 +1,11 @@
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
-        Book book = new Book("Lord of the Rings", "John Tolkien", 1925, 2);
-        System.out.println(book.title);
+        ArrayList<Book> books = new ArrayList<>();
+
+        books.add(new Book("Lord of the Rings", "John Tolkien", 1925, 2));
+        System.out.println(books.get(0).title);
     }
 
 }
