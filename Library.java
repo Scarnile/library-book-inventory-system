@@ -1,3 +1,4 @@
+import java.text.ListFormat.Style;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,8 +13,9 @@ public class Library {
         scanner.useDelimiter(System.lineSeparator());
 
         // Initialize Books
-        books.add(new Book("Lord of the Rings", "John Tolkien", 1925, 1));
-        books.add(new Book("Harry Potter", "J.K Rowling", 1980, 1));
+        books.add(new Book("Meditations", "Marcus Aurelius", 1634, 2));
+        books.add(new Book("Harry Potter", "J.K Rowling", 1997, 1));
+        books.add(new Book("Steel Ball Run", "Hirohiko Araki", 2004, 1));
 
         // System Loop
         while (isSystemRunning) {
@@ -30,7 +32,7 @@ public class Library {
     static void MainMenu(LibraryUser libraryUser, ArrayList<Book> books, Scanner scanner) {
 
         System.out.println(
-                "0: Borrow Book\n1: Return Book\n2: List All Books\n3: Search Books\n4: Donate a Book\n5: Exit System");
+                "0: Borrow Book\n1: Return Book\n2: List All Books\n3: Find a Book\n4: Donate a Book\n5: Exit System");
         String input = scanner.next();
 
         switch (input) {
@@ -43,6 +45,9 @@ public class Library {
             case "2":
                 ShowAllBooks(books);
                 break;
+            case "3":
+                FindBook(books, scanner);
+                break;
             case "4":
                 DonateBook(books, scanner);
                 break;
@@ -50,7 +55,7 @@ public class Library {
                 isSystemRunning = false;
                 break;
             default:
-                System.out.println("Invalid input: " + input);
+                System.out.println("Invalid input: " + input + "\n");
                 break;
         }
 
@@ -130,6 +135,29 @@ public class Library {
         newBook.libraryCopies = (scanner.nextInt());
 
         libraryBooks.add(newBook);
+    }
+
+    static void FindBook(ArrayList<Book> libraryBooks, Scanner scanner) {
+
+        boolean foundBook = false;
+        System.out.print("\nType the title of a book you want to find: ");
+        String titleSearch = scanner.next();
+
+        for (Book book : libraryBooks) {
+
+            if (titleSearch.equals(book.title)) {
+                System.out.println("\n" + book.title.toUpperCase());
+                System.out.println("Author: " + book.author);
+                System.out.println("Year Published: " + book.year);
+                System.out.println("Copies in Library: " + book.libraryCopies);
+                System.out.println();
+                foundBook = true;
+            }
+        }
+
+        if (!foundBook) {
+            System.out.println("There are no books in the library with that exact title\n");
+        }
     }
 
     static void ShowAllBooks(ArrayList<Book> books) {
