@@ -9,9 +9,13 @@ public class Library {
         LibraryUser libraryUser = new LibraryUser();
         Scanner scanner = new Scanner(System.in);
 
+        scanner.useDelimiter(System.lineSeparator());
+
+        // Initialize Books
         books.add(new Book("Lord of the Rings", "John Tolkien", 1925, 2));
         books.add(new Book("Harry Potter", "J.K Rowling", 1980, 0));
 
+        // System Loop
         while (isSystemRunning) {
             MainMenu(libraryUser, books, scanner);
 
@@ -27,7 +31,7 @@ public class Library {
 
         System.out.println(
                 "0: Borrow Book\n1: Return Book\n2: List All Books\n3: Search Books\n4: Suggest a Book\n5: Exit System");
-        String input = scanner.nextLine();
+        String input = scanner.next();
 
         switch (input) {
             case "0":
@@ -42,7 +46,7 @@ public class Library {
                 isSystemRunning = false;
                 break;
             default:
-                System.out.println("Invalid input");
+                System.out.println("Invalid input: " + input);
                 break;
         }
 
@@ -51,8 +55,9 @@ public class Library {
     static void BorrowBook(LibraryUser libraryUser, ArrayList<Book> books, Scanner scanner) {
 
         // Ask user for the index of the book
-        System.out.println("Would you like to borrow any of the books below?");
+        System.out.println("\nWould you like to borrow any of the books below?");
         ShowAllBooks(books);
+        System.out.print("Book Index: ");
         int index = scanner.nextInt();
 
         // If book has an invalid index
@@ -70,6 +75,7 @@ public class Library {
             } else {
                 System.out.println("There are no more copies left of " + book.title);
             }
+            System.out.println(""); // Print empty line
         }
     }
 
