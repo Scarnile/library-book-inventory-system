@@ -30,7 +30,7 @@ public class Library {
     static void MainMenu(LibraryUser libraryUser, ArrayList<Book> books, Scanner scanner) {
 
         System.out.println(
-                "0: Borrow Book\n1: Return Book\n2: List All Books\n3: Search Books\n4: Suggest a Book\n5: Exit System");
+                "0: Borrow Book\n1: Return Book\n2: List All Books\n3: Search Books\n4: Donate a Book\n5: Exit System");
         String input = scanner.next();
 
         switch (input) {
@@ -42,6 +42,9 @@ public class Library {
                 break;
             case "2":
                 ShowAllBooks(books);
+                break;
+            case "4":
+                DonateBook(books, scanner);
                 break;
             case "5":
                 isSystemRunning = false;
@@ -111,12 +114,31 @@ public class Library {
 
     }
 
+    static void DonateBook(ArrayList<Book> libraryBooks, Scanner scanner) {
+        Book newBook = new Book(null, null, 0, 0);
+
+        System.out.println("\nWhat is the title of the book?");
+        newBook.title = (scanner.next());
+
+        System.out.println("\nWho is the author of the book?");
+        newBook.author = (scanner.next());
+
+        System.out.println("\nWhat year was the book released?");
+        newBook.year = (scanner.nextInt());
+
+        System.out.println("\nHow many books will you donate to the library?");
+        newBook.libraryCopies = (scanner.nextInt());
+
+        libraryBooks.add(newBook);
+    }
+
     static void ShowAllBooks(ArrayList<Book> books) {
+        System.out.println();
         for (Book book : books) {
             int bookIndex = books.indexOf(book);
             System.out.println(bookIndex + ": " + book.title);
         }
-
+        System.out.println();
     }
 }
 
