@@ -2,47 +2,53 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Library {
+    static boolean isSystemRunning = true;
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         ArrayList<Book> books = new ArrayList<>();
         LibraryUser libraryUser = new LibraryUser();
+        Scanner scanner = new Scanner(System.in);
 
         books.add(new Book("Lord of the Rings", "John Tolkien", 1925, 2));
         books.add(new Book("Harry Potter", "J.K Rowling", 1980, 0));
 
-        MainMenu(libraryUser, books);
-        // ShowAllBooks(books);
-        // int answer = scanner.nextInt();
-        // BorrowBook(libraryUser, books, answer);
+        while (isSystemRunning) {
+            MainMenu(libraryUser, books, scanner);
 
-        // scanner.close();
+            if (!isSystemRunning) {
+                scanner.close();
+                break;
+            }
+        }
+
     }
 
-    static void MainMenu(LibraryUser libraryUser, ArrayList<Book> books) {
-        Scanner scanner = new Scanner(System.in);
+    static void MainMenu(LibraryUser libraryUser, ArrayList<Book> books, Scanner scanner) {
 
-        System.out.println("0: Borrow Book\n1: Return Book\n2: List All Books\n3: Search Books\n4: Suggest a Book");
-        int input = scanner.nextInt();
+        System.out.println(
+                "0: Borrow Book\n1: Return Book\n2: List All Books\n3: Search Books\n4: Suggest a Book\n5: Exit System");
+        String input = scanner.nextLine();
 
         switch (input) {
-            case 0:
-                BorrowBook(libraryUser, books);
+            case "0":
+                BorrowBook(libraryUser, books, scanner);
                 break;
-            case 1:
+            case "1":
                 break;
-            case 2:
+            case "2":
                 ShowAllBooks(books);
+                break;
+            case "5":
+                isSystemRunning = false;
                 break;
             default:
                 System.out.println("Invalid input");
                 break;
         }
 
-        scanner.close();
     }
 
-    static void BorrowBook(LibraryUser libraryUser, ArrayList<Book> books) {
-        Scanner scanner = new Scanner(System.in);
+    static void BorrowBook(LibraryUser libraryUser, ArrayList<Book> books, Scanner scanner) {
 
         // Ask user for the index of the book
         System.out.println("Would you like to borrow any of the books below?");
@@ -52,7 +58,6 @@ public class Library {
         // If book has an invalid index
         if (index >= books.size()) {
             System.out.println("Invalid book index, try again");
-            scanner.close();
             return;
         } else {
             Book book = books.get(index);
@@ -66,7 +71,6 @@ public class Library {
                 System.out.println("There are no more copies left of " + book.title);
             }
         }
-        scanner.close();
     }
 
     static void ShowAllBooks(ArrayList<Book> books) {
