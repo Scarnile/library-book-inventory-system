@@ -14,21 +14,29 @@ public class Library {
         ShowAllBooks(books);
         int answer = scanner.nextInt();
         BorrowBook(libraryUser, books, answer);
-        System.out.println(libraryUser.books.getFirst().title);
+
+        scanner.close();
     }
 
     static void BorrowBook(LibraryUser libraryUser, ArrayList<Book> books, int index) {
-        // If book still has library copies, borrow the book
 
-        Book book = books.get(index);
-
-        if (book.libraryCopies > 0) {
-            book.libraryCopies -= 1;
-            libraryUser.books.add(book);
-            System.out.println("You have successfully borrowed " + book.title);
+        // If book has an invalid index
+        if (index >= books.size()) {
+            System.out.println("Invalid book index, try again");
+            return;
         } else {
-            System.out.println("There are no more copies left of " + book.title);
+            Book book = books.get(index);
+
+            // If book still has library copies, borrow the book
+            if (book.libraryCopies > 0) {
+                book.libraryCopies -= 1;
+                libraryUser.books.add(book);
+                System.out.println("You have successfully borrowed " + book.title);
+            } else {
+                System.out.println("There are no more copies left of " + book.title);
+            }
         }
+
     }
 
     static void ShowAllBooks(ArrayList<Book> books) {
