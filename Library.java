@@ -11,20 +11,20 @@ public class Library {
     public static final String BLUE = "\u001B[34m";
 
     public static void main(String[] args) {
-        ArrayList<Book> books = new ArrayList<>();
+        ArrayList<Book> libraryBooks = new ArrayList<>();
         LibraryUser libraryUser = new LibraryUser();
         Scanner scanner = new Scanner(System.in);
 
         scanner.useDelimiter(System.lineSeparator());
 
         // Initialize Books
-        books.add(new Book("Meditations", "Marcus Aurelius", 1634, 2));
-        books.add(new Book("Harry Potter", "J.K Rowling", 1997, 1));
-        books.add(new Book("Steel Ball Run", "Hirohiko Araki", 2004, 1));
+        libraryBooks.add(new Book("Meditations", "Marcus Aurelius", 1634, 2));
+        libraryBooks.add(new Book("Harry Potter", "J.K Rowling", 1997, 1));
+        libraryBooks.add(new Book("Steel Ball Run", "Hirohiko Araki", 2004, 1));
 
         // System Loop
         while (isSystemRunning) {
-            MainMenu(libraryUser, books, scanner);
+            MainMenu(libraryUser, libraryBooks, scanner);
 
             if (!isSystemRunning) {
                 scanner.close();
@@ -75,8 +75,6 @@ public class Library {
     static void BorrowBook(LibraryUser libraryUser, ArrayList<Book> libraryBooks, Scanner scanner) {
 
         // Ask user for the index of the book
-        // System.out.println(ANSI_GREEN + "\nWould you like to borrow any of the books
-        // below?" + ANSI_RESET);
         printColored("\nWould you like to borrow any of the books below?", GREEN);
         ShowAllBooks(libraryBooks, true);
         System.out.print("\nInsert Book Index: ");
@@ -141,6 +139,8 @@ public class Library {
             System.out.println();
             return;
         } else if (confirmation.equals("y")) {
+
+            // Ask for user to input details of the book they're about to donate
             printColored("\nWhat is the title of the book?", GREEN);
             newBook.title = (scanner.next());
 
