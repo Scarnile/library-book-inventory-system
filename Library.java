@@ -1,4 +1,3 @@
-import java.text.ListFormat.Style;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -32,7 +31,6 @@ public class Library {
                 break;
             }
         }
-
     }
 
     static void MainMenu(LibraryUser libraryUser, ArrayList<Book> books, Scanner scanner) {
@@ -52,7 +50,7 @@ public class Library {
                 break;
             case "2":
                 printColored("\nAll Books in the Library", YELLOW);
-                ShowAllBooks(books);
+                ShowAllBooks(books, true);
                 printColored("------------------------" + "\n", YELLOW);
                 break;
             case "3":
@@ -62,6 +60,9 @@ public class Library {
                 DonateBook(books, scanner);
                 break;
             case "5":
+                printColored(
+                        "\nMy Github Commits: https://github.com/Scarnile/library-book-inventory-system/commits/main",
+                        BLUE);
                 isSystemRunning = false;
                 break;
             default:
@@ -77,7 +78,7 @@ public class Library {
         // System.out.println(ANSI_GREEN + "\nWould you like to borrow any of the books
         // below?" + ANSI_RESET);
         printColored("\nWould you like to borrow any of the books below?", GREEN);
-        ShowAllBooks(libraryBooks);
+        ShowAllBooks(libraryBooks, true);
         System.out.print("\nInsert Book Index: ");
         int inputIndex = scanner.nextInt();
 
@@ -94,7 +95,7 @@ public class Library {
                 libraryUser.books.add(selectedBook);
                 printColored("You have successfully borrowed " + selectedBook.title, BLUE);
             } else {
-                System.out.println("There are no more copies left of " + selectedBook.title);
+                printColored("There are no more copies left of " + selectedBook.title, RED);
             }
             System.out.println(""); // Print empty line
         }
@@ -104,13 +105,13 @@ public class Library {
         // Display all the library user's books
         if (!libraryUser.books.isEmpty()) {
             printColored("\nWhich book do you want to return?: ", GREEN);
-            ShowAllBooks(libraryUser.books);
+            ShowAllBooks(libraryUser.books, false);
 
             int inputIndex = scanner.nextInt();
 
             // If book has an invalid index
             if (inputIndex >= libraryUser.books.size()) {
-                System.out.println("Invalid book index, try again\n");
+                printColored("Invalid book index, try again\n", RED);
                 return;
             } else {
                 // Find LibraryUser's book in Library and add a copy
@@ -121,7 +122,7 @@ public class Library {
                     if (selectedBook.title == libraryBook.title) {
                         libraryBook.libraryCopies++;
                         libraryUser.books.remove(selectedBook);
-                        System.out.println("Successfully returned " + selectedBook.title + "\n");
+                        printColored("Successfully returned " + selectedBook.title + "\n", BLUE);
                     }
                 }
             }
@@ -166,10 +167,10 @@ public class Library {
         printColored("\nType the title of a book you want to find: ", GREEN);
         String titleSearch = scanner.next();
 
+        // Find if the user input matches the book title
         for (Book book : libraryBooks) {
-
             if (titleSearch.equals(book.title)) {
-                System.out.println("\n" + book.title.toUpperCase());
+                printColored("\n" + book.title.toUpperCase(), BLUE);
                 System.out.println("Author: " + book.author);
                 System.out.println("Year Published: " + book.year);
                 System.out.println("Copies in Library: " + book.libraryCopies);
@@ -183,10 +184,16 @@ public class Library {
         }
     }
 
-    static void ShowAllBooks(ArrayList<Book> books) {
+    static void ShowAllBooks(ArrayList<Book> books, boolean showUnavailable) {
         for (Book book : books) {
             int bookIndex = books.indexOf(book);
-            System.out.println(bookIndex + ": " + book.title);
+
+            // Make the books red if no copies are available
+            if (showUnavailable && book.libraryCopies <= 0) {
+                System.out.println(RED + bookIndex + ": " + RESET + book.title);
+            } else {
+                System.out.println(bookIndex + ": " + book.title);
+            }
         }
     }
 
