@@ -81,8 +81,8 @@ public class Library {
         int inputIndex = scanner.nextInt();
 
         // If book has an invalid index
-        if (inputIndex >= libraryBooks.size()) {
-            System.out.println("Invalid book index, try again\n");
+        if (inputIndex >= libraryBooks.size() || inputIndex < 0) {
+            printColored("Invalid book index, try again\n", RED);
             return;
         } else {
             Book selectedBook = libraryBooks.get(inputIndex);
@@ -150,7 +150,7 @@ public class Library {
             printColored("\nWhat year was the book released?", GREEN);
             newBook.year = (scanner.nextInt());
 
-            printColored("\nHow many books will you donate to the library?", GREEN);
+            printColored("\nHow many copies of " + newBook.title + " will you donate to the library?", GREEN);
             newBook.libraryCopies = (scanner.nextInt());
 
             libraryBooks.add(newBook);
