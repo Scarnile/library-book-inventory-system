@@ -5,15 +5,11 @@ import java.util.Scanner;
 public class Library {
     static boolean isSystemRunning = true;
 
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String BLUE = "\u001B[34m";
 
     public static void main(String[] args) {
         ArrayList<Book> books = new ArrayList<>();
@@ -41,10 +37,10 @@ public class Library {
 
     static void MainMenu(LibraryUser libraryUser, ArrayList<Book> books, Scanner scanner) {
 
-        System.out.println(ANSI_YELLOW + "MAIN MENU" + ANSI_RESET);
+        printColored("MAIN MENU", YELLOW);
         System.out.println(
                 "0: Borrow Book\n1: Return Book\n2: List All Books\n3: Find a Book\n4: Donate a Book\n5: Exit System\n");
-        System.out.print(ANSI_GREEN + "Select a number: " + ANSI_RESET);
+        printColored("Select a number: ", GREEN);
         String input = scanner.next();
 
         switch (input) {
@@ -55,10 +51,9 @@ public class Library {
                 ReturnBook(libraryUser, books, scanner);
                 break;
             case "2":
-                System.out.println("\n" + ANSI_YELLOW + "All Books in the Library" + ANSI_RESET);
+                printColored("\nAll Books in the Library", YELLOW);
                 ShowAllBooks(books);
-                System.out.println(ANSI_YELLOW + "------------------------" + ANSI_RESET + "\n");
-
+                printColored("------------------------" + "\n", YELLOW);
                 break;
             case "3":
                 FindBook(books, scanner);
@@ -70,7 +65,7 @@ public class Library {
                 isSystemRunning = false;
                 break;
             default:
-                System.out.println("\n" + ANSI_RED + "Invalid input: " + input + "\n" + ANSI_RESET);
+                printColored("\n" + "Invalid input: " + input + "\n", RED);
                 break;
         }
 
@@ -79,7 +74,9 @@ public class Library {
     static void BorrowBook(LibraryUser libraryUser, ArrayList<Book> libraryBooks, Scanner scanner) {
 
         // Ask user for the index of the book
-        System.out.println(ANSI_GREEN + "\nWould you like to borrow any of the books below?" + ANSI_RESET);
+        // System.out.println(ANSI_GREEN + "\nWould you like to borrow any of the books
+        // below?" + ANSI_RESET);
+        printColored("\nWould you like to borrow any of the books below?", GREEN);
         ShowAllBooks(libraryBooks);
         System.out.print("\nInsert Book Index: ");
         int inputIndex = scanner.nextInt();
@@ -95,7 +92,7 @@ public class Library {
             if (selectedBook.libraryCopies > 0) {
                 selectedBook.libraryCopies -= 1;
                 libraryUser.books.add(selectedBook);
-                System.out.println("You have successfully borrowed " + selectedBook.title);
+                printColored("You have successfully borrowed " + selectedBook.title, BLUE);
             } else {
                 System.out.println("There are no more copies left of " + selectedBook.title);
             }
@@ -106,7 +103,7 @@ public class Library {
     static void ReturnBook(LibraryUser libraryUser, ArrayList<Book> libraryBooks, Scanner scanner) {
         // Display all the library user's books
         if (!libraryUser.books.isEmpty()) {
-            System.out.println(ANSI_GREEN + "\nWhich book do you want to return?: " + ANSI_RESET);
+            printColored("\nWhich book do you want to return?: ", GREEN);
             ShowAllBooks(libraryUser.books);
 
             int inputIndex = scanner.nextInt();
@@ -129,46 +126,44 @@ public class Library {
                 }
             }
         } else {
-            System.out
-                    .println(ANSI_RED + "You currently don't have any borrowed books from the library\n" + ANSI_RESET);
+            printColored("You currently don't have any borrowed books from the library\n", RED);
         }
 
     }
 
     static void DonateBook(ArrayList<Book> libraryBooks, Scanner scanner) {
         Book newBook = new Book(null, null, 0, 0);
-        System.out
-                .println("\n" + ANSI_GREEN + "Do you want to donate a book to the library right now? y/n" + ANSI_RESET);
+        printColored("\nDo you want to donate a book to the library right now? y/n", GREEN);
         String confirmation = scanner.next();
 
         if (confirmation.equals("n")) {
             System.out.println();
             return;
         } else if (confirmation.equals("y")) {
-            System.out.println("\nWhat is the title of the book?");
+            printColored("\nWhat is the title of the book?", GREEN);
             newBook.title = (scanner.next());
 
-            System.out.println("\nWho is the author of the book?");
+            printColored("\nWho is the author of the book?", GREEN);
             newBook.author = (scanner.next());
 
-            System.out.println("\nWhat year was the book released?");
+            printColored("\nWhat year was the book released?", GREEN);
             newBook.year = (scanner.nextInt());
 
-            System.out.println("\nHow many books will you donate to the library?");
+            printColored("\nHow many books will you donate to the library?", GREEN);
             newBook.libraryCopies = (scanner.nextInt());
 
             libraryBooks.add(newBook);
-            System.out.println(
-                    ANSI_CYAN + "\nYou have successfully added " + newBook.title + " to the Library!\n" + ANSI_RESET);
+
+            printColored("\nYou have successfully added " + newBook.title + " to the Library!\n", BLUE);
         } else {
-            System.out.println(ANSI_RED + "Invalid input\n" + ANSI_RESET);
+            printColored("Invalid input\n", RED);
         }
     }
 
     static void FindBook(ArrayList<Book> libraryBooks, Scanner scanner) {
 
         boolean foundBook = false;
-        System.out.print(ANSI_GREEN + "\nType the title of a book you want to find: " + ANSI_RESET);
+        printColored("\nType the title of a book you want to find: ", GREEN);
         String titleSearch = scanner.next();
 
         for (Book book : libraryBooks) {
@@ -184,7 +179,7 @@ public class Library {
         }
 
         if (!foundBook) {
-            System.out.println(ANSI_RED + "There are no books in the library with that exact title\n" + ANSI_RESET);
+            printColored("There are no books in the library with that exact title\n", RED);
         }
     }
 
@@ -193,6 +188,10 @@ public class Library {
             int bookIndex = books.indexOf(book);
             System.out.println(bookIndex + ": " + book.title);
         }
+    }
+
+    public static void printColored(String message, String colorCode) {
+        System.out.println(colorCode + message + RESET);
     }
 }
 
