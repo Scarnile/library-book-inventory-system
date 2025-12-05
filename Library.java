@@ -41,6 +41,7 @@ public class Library {
 
     static void MainMenu(LibraryUser libraryUser, ArrayList<Book> books, Scanner scanner) {
 
+        System.out.println(ANSI_YELLOW + "MAIN MENU" + ANSI_RESET);
         System.out.println(
                 "0: Borrow Book\n1: Return Book\n2: List All Books\n3: Find a Book\n4: Donate a Book\n5: Exit System\n");
         System.out.print(ANSI_GREEN + "Select a number: " + ANSI_RESET);
@@ -54,7 +55,10 @@ public class Library {
                 ReturnBook(libraryUser, books, scanner);
                 break;
             case "2":
+                System.out.println("\n" + ANSI_YELLOW + "All Books in the Library" + ANSI_RESET);
                 ShowAllBooks(books);
+                System.out.println(ANSI_YELLOW + "------------------------" + ANSI_RESET + "\n");
+
                 break;
             case "3":
                 FindBook(books, scanner);
@@ -75,7 +79,7 @@ public class Library {
     static void BorrowBook(LibraryUser libraryUser, ArrayList<Book> libraryBooks, Scanner scanner) {
 
         // Ask user for the index of the book
-        System.out.println("\nWould you like to borrow any of the books below?");
+        System.out.println(ANSI_GREEN + "\nWould you like to borrow any of the books below?" + ANSI_RESET);
         ShowAllBooks(libraryBooks);
         System.out.print("\nInsert Book Index: ");
         int inputIndex = scanner.nextInt();
@@ -102,7 +106,7 @@ public class Library {
     static void ReturnBook(LibraryUser libraryUser, ArrayList<Book> libraryBooks, Scanner scanner) {
         // Display all the library user's books
         if (!libraryUser.books.isEmpty()) {
-            System.out.println("\nWhich book do you want to return?: ");
+            System.out.println(ANSI_GREEN + "\nWhich book do you want to return?: " + ANSI_RESET);
             ShowAllBooks(libraryUser.books);
 
             int inputIndex = scanner.nextInt();
@@ -125,33 +129,46 @@ public class Library {
                 }
             }
         } else {
-            System.out.println("Sorry, you haven't borrowed any books from the library yet\n");
+            System.out
+                    .println(ANSI_RED + "You currently don't have any borrowed books from the library\n" + ANSI_RESET);
         }
 
     }
 
     static void DonateBook(ArrayList<Book> libraryBooks, Scanner scanner) {
         Book newBook = new Book(null, null, 0, 0);
+        System.out
+                .println("\n" + ANSI_GREEN + "Do you want to donate a book to the library right now? y/n" + ANSI_RESET);
+        String confirmation = scanner.next();
 
-        System.out.println("\nWhat is the title of the book?");
-        newBook.title = (scanner.next());
+        if (confirmation.equals("n")) {
+            System.out.println();
+            return;
+        } else if (confirmation.equals("y")) {
+            System.out.println("\nWhat is the title of the book?");
+            newBook.title = (scanner.next());
 
-        System.out.println("\nWho is the author of the book?");
-        newBook.author = (scanner.next());
+            System.out.println("\nWho is the author of the book?");
+            newBook.author = (scanner.next());
 
-        System.out.println("\nWhat year was the book released?");
-        newBook.year = (scanner.nextInt());
+            System.out.println("\nWhat year was the book released?");
+            newBook.year = (scanner.nextInt());
 
-        System.out.println("\nHow many books will you donate to the library?");
-        newBook.libraryCopies = (scanner.nextInt());
+            System.out.println("\nHow many books will you donate to the library?");
+            newBook.libraryCopies = (scanner.nextInt());
 
-        libraryBooks.add(newBook);
+            libraryBooks.add(newBook);
+            System.out.println(
+                    ANSI_CYAN + "\nYou have successfully added " + newBook.title + " to the Library!\n" + ANSI_RESET);
+        } else {
+            System.out.println(ANSI_RED + "Invalid input\n" + ANSI_RESET);
+        }
     }
 
     static void FindBook(ArrayList<Book> libraryBooks, Scanner scanner) {
 
         boolean foundBook = false;
-        System.out.print("\nType the title of a book you want to find: ");
+        System.out.print(ANSI_GREEN + "\nType the title of a book you want to find: " + ANSI_RESET);
         String titleSearch = scanner.next();
 
         for (Book book : libraryBooks) {
@@ -167,17 +184,15 @@ public class Library {
         }
 
         if (!foundBook) {
-            System.out.println("There are no books in the library with that exact title\n");
+            System.out.println(ANSI_RED + "There are no books in the library with that exact title\n" + ANSI_RESET);
         }
     }
 
     static void ShowAllBooks(ArrayList<Book> books) {
-        System.out.println();
         for (Book book : books) {
             int bookIndex = books.indexOf(book);
             System.out.println(bookIndex + ": " + book.title);
         }
-        System.out.println();
     }
 }
 
