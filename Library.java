@@ -5,6 +5,16 @@ import java.util.Scanner;
 public class Library {
     static boolean isSystemRunning = true;
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+
     public static void main(String[] args) {
         ArrayList<Book> books = new ArrayList<>();
         LibraryUser libraryUser = new LibraryUser();
@@ -32,7 +42,8 @@ public class Library {
     static void MainMenu(LibraryUser libraryUser, ArrayList<Book> books, Scanner scanner) {
 
         System.out.println(
-                "0: Borrow Book\n1: Return Book\n2: List All Books\n3: Find a Book\n4: Donate a Book\n5: Exit System");
+                "0: Borrow Book\n1: Return Book\n2: List All Books\n3: Find a Book\n4: Donate a Book\n5: Exit System\n");
+        System.out.print(ANSI_GREEN + "Select a number: " + ANSI_RESET);
         String input = scanner.next();
 
         switch (input) {
@@ -55,7 +66,7 @@ public class Library {
                 isSystemRunning = false;
                 break;
             default:
-                System.out.println("Invalid input: " + input + "\n");
+                System.out.println("\n" + ANSI_RED + "Invalid input: " + input + "\n" + ANSI_RESET);
                 break;
         }
 
@@ -71,7 +82,7 @@ public class Library {
 
         // If book has an invalid index
         if (inputIndex >= libraryBooks.size()) {
-            System.out.println("Invalid book index, try again");
+            System.out.println("Invalid book index, try again\n");
             return;
         } else {
             Book selectedBook = libraryBooks.get(inputIndex);
@@ -98,7 +109,7 @@ public class Library {
 
             // If book has an invalid index
             if (inputIndex >= libraryUser.books.size()) {
-                System.out.println("Invalid book index, try again");
+                System.out.println("Invalid book index, try again\n");
                 return;
             } else {
                 // Find LibraryUser's book in Library and add a copy
