@@ -170,11 +170,7 @@ public class Library {
         // Find if the user input matches the book title
         for (Book book : libraryBooks) {
             if (titleSearch.equals(book.title)) {
-                printColored("\n" + book.title.toUpperCase(), BLUE);
-                System.out.println("Author: " + book.author);
-                System.out.println("Year Published: " + book.year);
-                System.out.println("Copies in Library: " + book.libraryCopies);
-                System.out.println();
+                ShowBookInformation(book);
                 foundBook = true;
             }
         }
@@ -195,6 +191,14 @@ public class Library {
                 System.out.println(bookIndex + ": " + book.title);
             }
         }
+    }
+
+    static void ShowBookInformation(Book book) {
+        printColored("\n" + book.title.toUpperCase(), BLUE);
+        System.out.println("Author: " + book.author);
+        System.out.println("Year Published: " + book.year);
+        System.out.println("Copies in Library: " + book.libraryCopies);
+        System.out.println();
     }
 
     public static void printColored(String message, String colorCode) {
