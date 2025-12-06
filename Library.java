@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,9 +23,7 @@ public class Library {
         scanner.useDelimiter(System.lineSeparator());
 
         // Initialize Books
-        libraryBooks.add(new Book("Meditations", "Marcus Aurelius", 1634, 2));
-        libraryBooks.add(new Book("Harry Potter", "J.K Rowling", 1997, 1));
-        libraryBooks.add(new Book("Steel Ball Run", "Hirohiko Araki", 2004, 1));
+        LoadBooks(libraryBooks);
 
         // System Loop
         while (isSystemRunning) {
@@ -36,7 +36,7 @@ public class Library {
         }
     }
 
-    static void MainMenu(LibraryUser libraryUser, ArrayList<Book> books, Scanner scanner) {
+    static void MainMenu(LibraryUser libraryUser, ArrayList<Book> libraryBooks, Scanner scanner) {
 
         printColored("MAIN MENU", YELLOW);
         System.out.println(
@@ -46,21 +46,21 @@ public class Library {
 
         switch (input) {
             case "0":
-                BorrowBook(libraryUser, books, scanner);
+                BorrowBook(libraryUser, libraryBooks, scanner);
                 break;
             case "1":
-                ReturnBook(libraryUser, books, scanner);
+                ReturnBook(libraryUser, libraryBooks, scanner);
                 break;
             case "2":
                 printColored("\nAll Books in the Library", YELLOW);
-                ShowAllBooks(books, true);
+                ShowAllBooks(libraryBooks, true);
                 printColored("------------------------" + "\n", YELLOW);
                 break;
             case "3":
-                FindBook(books, scanner);
+                FindBook(libraryBooks, scanner);
                 break;
             case "4":
-                DonateBook(books, scanner);
+                DonateBook(libraryBooks, scanner);
                 break;
             case "5":
                 printColored(
@@ -216,6 +216,35 @@ public class Library {
             System.out.println("Data successfully written to " + filePath);
         } catch (IOException e) {
             System.err.println("Error writing to CSV file: " + e.getMessage());
+        }
+    }
+
+    static void LoadBooks(ArrayList<Book> libraryBooks) {
+        String file = "books.csv";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                // Split each line by comma
+                Book savedBook = new Book(file, line, 0, 0);
+
+                String[] values = line.split(",");
+                savedBook.title = values[0];
+                savedBook.author = values[1];
+                savedBook.year = Integer.parseInt(values[2]);
+                savedBook.libraryCopies = Integer.parseInt(values[3]);
+
+                // Example: print the columns
+                System.out.println("Title: " + savedBook.title +
+                        ", Author: " + savedBook.author +
+                        ", Year Published: " + savedBook.year +
+                        ", Copies Available: " + savedBook.libraryCopies);
+                libraryBooks.add(savedBook);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
