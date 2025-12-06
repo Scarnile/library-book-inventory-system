@@ -1,3 +1,6 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -203,6 +206,17 @@ public class Library {
 
     public static void printColored(String message, String colorCode) {
         System.out.println(colorCode + message + RESET);
+    }
+
+    static void SaveBook(Book book) {
+        String filePath = "output.csv";
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
+            writer.println(book.title + ", " + book.author + ", " + book.year + ", " + book.libraryCopies);
+            System.out.println("Data successfully written to " + filePath);
+        } catch (IOException e) {
+            System.err.println("Error writing to CSV file: " + e.getMessage());
+        }
     }
 }
 
